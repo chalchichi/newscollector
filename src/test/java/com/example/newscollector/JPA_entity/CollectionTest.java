@@ -1,28 +1,23 @@
-package com.example.newscollector;
+package com.example.newscollector.JPA_entity;
 
-import com.example.newscollector.JPA_entity.Account;
-import com.example.newscollector.JPA_entity.Collection;
-import com.example.newscollector.JPA_entity.News;
 import com.example.newscollector.JPA_repository.AccountRepository;
 import com.example.newscollector.JPA_repository.CollectionRepository;
 import com.example.newscollector.JPA_repository.NewsRepository;
-import org.hibernate.Session;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-@Transactional
-public class JpaRunner implements ApplicationRunner {
-
-    private List<Account> acoountlist = new ArrayList<>();
+import static org.junit.jupiter.api.Assertions.*;
+@ExtendWith(SpringExtension.class)
+@DataJpaTest
+class CollectionTest {
 
     @Autowired
     AccountRepository accountRepository;
@@ -32,11 +27,17 @@ public class JpaRunner implements ApplicationRunner {
 
     @Autowired
     NewsRepository newsRepository;
+    private List<Account> acoountlist;
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
+    @BeforeEach
+    public void makelist()
+    {
+        this.acoountlist = new ArrayList<>();
+    }
 
-
+    @Test
+    public void crudRepository()
+    {
         Account account = new Account();
         account.setUserid("ohyunhoo");
         acoountlist.add(account);
@@ -57,6 +58,8 @@ public class JpaRunner implements ApplicationRunner {
         acoountlist.forEach(x->accountRepository.save(x));
         collectionRepository.save(collection);
         newsRepository.save(news);
+        collectionRepository.findAll().stream().map(x ->x.getAccount().getUserid() + " / " + x.getNews().getUrl())
+                .forEach(System.err::println);
+        assertFalse(collectionRepository.findAll().isEmpty());
     }
-
 }
