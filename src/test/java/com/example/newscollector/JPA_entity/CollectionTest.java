@@ -35,6 +35,7 @@ class CollectionTest {
         this.acoountlist = new ArrayList<>();
     }
 
+    //H2 Database로 테스
     @Test
     public void crudRepository()
     {
