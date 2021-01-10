@@ -28,7 +28,7 @@ class CollectionTest {
     @Autowired
     NewsRepository newsRepository;
     private List<Account> acoountlist;
-
+    private List<Account> newslist;
     @BeforeEach
     public void makelist()
     {
@@ -50,17 +50,34 @@ class CollectionTest {
         News news = new News();
         news.setUrl("www.naver.com");
         news.setMemo("main naver");
+        News news2 = new News();
+        news2.setUrl("www.google.com");
+        news2.setMemo("main google");
 
         Collection collection = new Collection();
         collection.setAccount(account);
+        account.getCollections().add(collection);
         collection.setNews(news);
         news.getCollectList().add(collection);
 
+        Collection collection2 = new Collection();
+        collection2.setAccount(account);
+        account.getCollections().add(collection2);
+        collection2.setNews(news2);
+        news2.getCollectList().add(collection2);
+
+
         acoountlist.forEach(x->accountRepository.save(x));
-        collectionRepository.save(collection);
         newsRepository.save(news);
-        collectionRepository.findAll().stream().map(x ->x.getAccount().getUserid() + " / " + x.getNews().getUrl())
-                .forEach(System.err::println);
-        assertFalse(collectionRepository.findAll().isEmpty());
+        newsRepository.save(news2);
+        collectionRepository.save(collection);
+        collectionRepository.save(collection2);
+
+
+        //test
+        Account getaccount = accountRepository.findAccountByUserid("ohyunhoo");
+        List<Collection> listbyuser = collectionRepository.findCollectionsByAccount(getaccount);
+        listbyuser.stream().map( x -> x.getAccount().getUserid() + " / " + x.getNews().getUrl() + " / " + x.getNews().getMemo())
+                .forEach(System.out::println);
     }
 }
