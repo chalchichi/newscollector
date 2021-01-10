@@ -77,6 +77,7 @@ class CollectionTest {
         //test
         Account getaccount = accountRepository.findAccountByUserid("ohyunhoo");
         List<Collection> listbyuser = collectionRepository.findCollectionsByAccount(getaccount);
+        assertEquals(listbyuser.size(),2);
         listbyuser.stream().map( x -> x.getAccount().getUserid() + " / " + x.getNews().getUrl() + " / " + x.getNews().getMemo())
                 .forEach(System.out::println);
     }
