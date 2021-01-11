@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
+<p th:text="${username}">default</p>
+<img th:src="@{${picture}}"/>
+<a href="/logout" class="btn btn-info active" role="button">Logout</a>
+</body>
+</html>
