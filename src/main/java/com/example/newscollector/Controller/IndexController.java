@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
@@ -36,9 +37,11 @@ public class IndexController {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
 
         if(user != null){
-            Account account = new Account();
-            account.setUserid(user.getName());
-            accountRepository.save(account);
+            if(!accountRepository.findAccountByUserid("user").isPresent()) {
+                Account account = new Account();
+                account.setUserid(user.getName());
+                accountRepository.save(account);
+            }
             model.addAttribute("username", user.getName());
             model.addAttribute("picture", user.getPicture());
             return "index2";
@@ -53,8 +56,14 @@ public class IndexController {
     public List<Collection> getData()
     {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        Account getaccount = accountRepository.findAccountByUserid("user");
-        List<Collection> listbyuser = collectionRepository.findCollectionsByAccount(getaccount);
-        return listbyuser;
+        Optional<Account> opgetaccount = accountRepository.findAccountByUserid("user");
+        if(opgetaccount.isPresent())
+        {
+            return collectionRepository.findCollectionsByAccount(opgetaccount.get());
+        }
+        else
+        {
+            return null;
+        }
     }
 }

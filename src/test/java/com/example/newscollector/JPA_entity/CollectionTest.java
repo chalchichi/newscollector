@@ -13,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
@@ -73,8 +74,8 @@ class CollectionTest {
     public void crudRepository()
     {
         //test
-        Account getaccount = accountRepository.findAccountByUserid("ohyunhoo");
-        List<Collection> listbyuser = collectionRepository.findCollectionsByAccount(getaccount);
+        Optional<Account> getaccount = accountRepository.findAccountByUserid("ohyunhoo");
+        List<Collection> listbyuser = collectionRepository.findCollectionsByAccount(getaccount.get());
         assertEquals(listbyuser.size(),2);
         listbyuser.stream().map( x -> x.getAccount().getUserid() + " / " + x.getNews().getUrl() + " / " + x.getNews().getMemo())
                 .forEach(System.out::println);
