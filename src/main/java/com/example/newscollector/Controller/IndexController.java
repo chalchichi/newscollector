@@ -34,21 +34,26 @@ public class IndexController {
     public String index(Model model) {
 
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
+
         if(user != null){
             Account account = new Account();
             account.setUserid(user.getName());
             accountRepository.save(account);
             model.addAttribute("username", user.getName());
             model.addAttribute("picture", user.getPicture());
+            return "index2";
         }
-
-        return "index";
+        else
+        {
+            return "index";
+        }
     }
 
     @GetMapping("/data")
     public List<Collection> getData()
     {
-        Account getaccount = accountRepository.findAccountByUserid("ohyunhoo");
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        Account getaccount = accountRepository.findAccountByUserid("user");
         List<Collection> listbyuser = collectionRepository.findCollectionsByAccount(getaccount);
         return listbyuser;
     }

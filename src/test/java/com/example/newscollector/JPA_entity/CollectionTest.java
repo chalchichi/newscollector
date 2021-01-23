@@ -9,7 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +33,6 @@ class CollectionTest {
     public void makelist()
     {
         this.acoountlist = new ArrayList<>();
-    }
-
-    //Test by H2 Database
-    @Test
-    public void crudRepository()
-    {
         Account account = new Account();
         account.setUserid("ohyunhoo");
         acoountlist.add(account);
@@ -72,8 +66,12 @@ class CollectionTest {
         newsRepository.save(news2);
         collectionRepository.save(collection);
         collectionRepository.save(collection2);
+    }
 
-
+    //Test by H2 Database
+    @Test
+    public void crudRepository()
+    {
         //test
         Account getaccount = accountRepository.findAccountByUserid("ohyunhoo");
         List<Collection> listbyuser = collectionRepository.findCollectionsByAccount(getaccount);
