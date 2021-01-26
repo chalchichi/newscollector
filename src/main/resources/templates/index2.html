@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -8,5 +7,18 @@
     <p th:text="${username}">default</p>
     <img th:src="@{${picture}}"/>
     <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+    <script src="/storeDataSendAjax.js"></script>
+    <h3>1. 데이터 전송</h3>
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-4">
+                <input id="uri" placeholder="데이터를 입력해주세요..">
+            </div>
+        </div>
+    </div>
+    <input value="등록" type="button" onclick="dataSend()">
+    <div id="resultDiv">
+        <p th:if="${msg}!=null" th:text="${msg}"></p>
+    </div>
 </body>
 </html>

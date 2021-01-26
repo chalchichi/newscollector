@@ -6,11 +6,14 @@ import com.example.newscollector.JPA_repository.AccountRepository;
 import com.example.newscollector.JPA_repository.CollectionRepository;
 import com.example.newscollector.JPA_repository.NewsRepository;
 import com.example.newscollector.Oauth.SessionUser;
+import com.example.newscollector.VO.Collection_VO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -37,7 +40,7 @@ public class IndexController {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
 
         if(user != null){
-            if(!accountRepository.findAccountByUserid("user").isPresent()) {
+            if(!accountRepository.findAccountByUserid(user.getName()).isPresent()) {
                 Account account = new Account();
                 account.setUserid(user.getName());
                 accountRepository.save(account);
@@ -66,4 +69,5 @@ public class IndexController {
             return null;
         }
     }
+
 }
