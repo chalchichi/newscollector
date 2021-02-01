@@ -47,11 +47,13 @@ public class IndexController {
             }
             model.addAttribute("username", user.getName());
             model.addAttribute("picture", user.getPicture());
-            return "index2";
+            return "redirect:http://localhost:3000";
         }
         else
         {
-            return "index";
+            model.addAttribute("username", user.getName());
+            model.addAttribute("picture", user.getPicture());
+            return "redirect:http://localhost:3000";
         }
     }
 
