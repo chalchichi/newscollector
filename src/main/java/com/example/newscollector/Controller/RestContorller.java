@@ -6,15 +6,14 @@ import com.example.newscollector.VO.Collection_VO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Controller
+@CrossOrigin(origins = "http://localhost:3000/")
+@RestController
 public class RestContorller {
 
     private final HttpSession httpSession;
@@ -25,4 +24,5 @@ public class RestContorller {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         String URI = collection_vo.getUri();
     }
+
 }
